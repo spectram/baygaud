@@ -17,11 +17,12 @@ echo "... Setup the paths to the libraries required for BAYGAUD installation ...
 echo "------------------------------------------------------------------------"
 echo ""
 echo ""
-default_path="/mnt/g0/research/packages/multinest/MultiNest_v3.7_MPIoff"
-read -p "--> 1/3. Enter the absolute path to the directory where MULTINEST_MPIOFF is installed <--
-    [Check with 'locate libnest3_mpioff.a']
-    [Press 'Enter' to use the default directory '/mnt/g0/research/packages/multinest/MultiNest_v3.7_MPIoff' 
-    or enter another directory and press 'Enter']: " dir_multinest_mpioff
+default_path="/opt/multinest.3.10_MPIoff/MultiNest-master/src"
+#read -p "--> 1/3. Enter the absolute path to the directory where MULTINEST_MPIOFF is installed <--
+#    [Check with 'locate libnest3_mpioff.a']
+#    [Press 'Enter' to use the default directory '/mnt/g0/research/packages/multinest/MultiNest_v3.7_MPIoff' 
+#    or enter another directory and press 'Enter']: " dir_multinest_mpioff
+dir_multinest_mpioff = default_path
 dir_multinest_mpioff="${dir_multinest_mpioff:-$default_path}"
 sed -i "s|^DIR_MPIOFF_MULTINEST.*|DIR_MPIOFF_MULTINEST = ${dir_multinest_mpioff}|g" ./src/bin/Makefile.am
 echo "    >> DIR_MPIOFF_MULTINEST= ${dir_multinest_mpioff=}"
@@ -29,11 +30,12 @@ echo "    >> DIR_MPIOFF_MULTINEST= ${dir_multinest_mpioff=}"
 
 # 2. CFITSIO DIRECTORY from the user
 echo ""
-default_path="/mnt/g0/research/packages/cfitsio/cfitsio"
-read -p "--> 2/3. Enter the absolute path to the directory where CFITSIO is installed <--
-    [Check with 'locate libcfitsio.a']
-    [Press 'Enter' to use the default directory '/mnt/g0/research/packages/cfitsio/cfitsio' 
-    or enter another directory and press 'Enter']: " dir_cfitsio
+default_path="/usr/lib/x86_64-linux-gnu"
+#read -p "--> 2/3. Enter the absolute path to the directory where CFITSIO is installed <--
+#    [Check with 'locate libcfitsio.a']
+#    [Press 'Enter' to use the default directory '/mnt/g0/research/packages/cfitsio/cfitsio' 
+#    or enter another directory and press 'Enter']: " dir_cfitsio
+dir_cfitsio = default_path
 dir_cfitsio="${dir_cfitsio:-$default_path}"
 sed -i "s|^DIR_CFITSIO.*|DIR_CFITSIO = ${dir_cfitsio}|g" ./src/bin/Makefile.am
 echo "    >> DIR_CFITSIO= ${dir_cfitsio=}"
@@ -41,11 +43,12 @@ echo "    >> DIR_CFITSIO= ${dir_cfitsio=}"
 
 # 3. GSL DIRECTORY from the user
 echo ""
-default_path="/mnt/g0/research/packages/gsl/gsl-1.16/.libs"
-read -p "--> 3/3. Enter the absolute path to the directory where GSL is installed <--
-    [Check with 'locate libgsl.a']
-    [Press 'Enter' to use the default directory '/mnt/g0/research/packages/gsl/gsl-1.16/.libs' 
-    or enter another directory and press 'Enter']: " dir_gsl
+default_path="/usr/lib/x86_64-linux-gnu"
+#read -p "--> 3/3. Enter the absolute path to the directory where GSL is installed <--
+#   [Check with 'locate libgsl.a']
+#    [Press 'Enter' to use the default directory '/mnt/g0/research/packages/gsl/gsl-1.16/.libs' 
+#    or enter another directory and press 'Enter']: " dir_gsl
+dir_gsl=default_path
 dir_gsl="${dir_gsl:-$default_path}"
 sed -i "s|^DIR_GSL.*|DIR_GSL = ${dir_gsl}|g" ./src/bin/Makefile.am
 echo "    >> DIR_GSL= ${dir_gsl=}"
