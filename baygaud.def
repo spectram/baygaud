@@ -27,7 +27,7 @@ Include: software-properties-common
 	
 	export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 	export LD_LIBRARY_PATH=/opt/baygaud/multinest.3.10_master_MPIoff/src:$LD_LIBRARY_PATH
-	alias baygaud=/opt/baygaud/src/bin/./baygaud
+	export PATH="/opt/baygaud/src/bin:$PATH"
 
 %post
 
@@ -47,7 +47,7 @@ Include: software-properties-common
 	apt-get update -y
         
 	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata 
-	apt install -y libxrandr-dev libxcursor-dev libxinerama-dev libfontconfig1-dev fontconfig libxft-dev libgl1 libsm-dev python3.8.15 python3-pip python3-tk libbz2-dev libx11-dev libxext-dev libxi-dev libxrender-dev libxml2 libxslt1.1 dbus dbus-x11 libtk8.6 tk8.6-blt2.5 blt ghostscript xvfb curl libapparmor1 qt5-default gnuplot fuse libfuse2 gcc g++ gfortran-7 make cmake automake git libopenmpi-dev libcfitsio-dev libgsl-dev libatlas-base-dev wget vim apt-utils git bzip2 build-essential libtool csh
+	apt install -y libxrandr-dev libxcursor-dev libxinerama-dev libfontconfig1-dev fontconfig libxft-dev libgl1 libsm-dev python3.8 python3-pip python3-tk libbz2-dev libx11-dev libxext-dev libxi-dev libxrender-dev libxml2 libxslt1.1 dbus dbus-x11 libtk8.6 tk8.6-blt2.5 blt ghostscript xvfb curl libapparmor1 qt5-default gnuplot fuse libfuse2 gcc g++ gfortran-7 make cmake automake git libopenmpi-dev libcfitsio-dev libgsl-dev libatlas-base-dev wget vim apt-utils git bzip2 build-essential libtool csh
 	
 	update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 	update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
@@ -110,7 +110,9 @@ Include: software-properties-common
 	# Baygaud
 	cd /opt
 	git clone https://github.com/spectram/baygaud.git
-	cd baygaud/multinest.3.10_master_MPIoff/src
+	cd baygaud
+	tar xvf multinest.3.10_master_MPIoff.tar.xz
+	cd multinest.3.10_master_MPIoff/src
 	export FC=gfortran-7
 	update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-7 1
 	csh -f multinest_comp.csh
