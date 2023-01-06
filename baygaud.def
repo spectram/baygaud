@@ -1,0 +1,127 @@
+Bootstrap: docker
+From: ubuntu:18.04
+OSVersion: bionic
+Include: software-properties-common
+
+%help
+	This container contains option to install CASA 6.5 Monolithic, SoFiA2 master, SoFiA-image-pipeline master, 3DBarolo master, Tirific 2.3.11, pyBbarolo, pyHIARD, pyFAT, and 		baygaud master.
+
+%labels
+
+        APPLICATION_NAME baygaud
+        APPLICATION_URL https://sites.google.com/view/baygaud
+        OS_VERSION 18.04 
+
+%environment
+
+        export LC_ALL=C
+        #export SOFIA2_PATH="/opt/SoFiA-2"
+        #export PATH="/opt/SoFiA-2:$PATH"
+        
+        #export MAGICK_HOME="/opt/ImageMagick-7.1.0"
+        #export PATH="$MAGICK_HOME/bin:$PATH
+        #LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$MAGICK_HOME/lib
+	#export LD_LIBRARY_PATH
+
+	#export PATH="/opt/casa-6.5.2-26-py3.8/bin:$PATH"
+	
+	export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+	export LD_LIBRARY_PATH=/opt/baygaud/multinest.3.10_master_MPIoff/src:$LD_LIBRARY_PATH
+	alias baygaud=/opt/baygaud/src/bin/./baygaud
+
+%post
+
+        # Create Installation Directories and export paths. This is needed as part of post.
+        # %environment scriptlet does not define these paths during %post, only after.
+
+        # Installation of initial packages
+        
+        apt-get update -y
+        apt-get -y install software-properties-common
+        
+        apt-add-repository universe
+        apt-add-repository multiverse
+        apt-add-repository restricted
+	add-apt-repository ppa:deadsnakes/ppa
+	add-apt-repository -s ppa:kernsuite/kern-5
+	apt-get update -y
+        
+	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata 
+	apt install -y libxrandr-dev libxcursor-dev libxinerama-dev libfontconfig1-dev fontconfig libxft-dev libgl1 libsm-dev python3.8.15 python3-pip python3-tk libbz2-dev libx11-dev libxext-dev libxi-dev libxrender-dev libxml2 libxslt1.1 dbus dbus-x11 libtk8.6 tk8.6-blt2.5 blt ghostscript xvfb curl libapparmor1 qt5-default gnuplot fuse libfuse2 gcc g++ gfortran-7 make cmake automake git libopenmpi-dev libcfitsio-dev libgsl-dev libatlas-base-dev wget vim apt-utils git bzip2 build-essential libtool csh
+	
+	update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+	update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+	python -m pip install --upgrade pip
+	
+        # Install SoFiA2
+        #apt-get install -y gcc wcslib-dev libopenmpi2 openmpi-bin openmpi-common
+        #cd /opt
+        #git clone https://github.com/SoFiA-Admin/SoFiA-2.git
+        #cd SoFiA-2
+        #./compile.sh -fopenmp
+        
+        # Install ImageMagick (https://imagemagick.org/script/install-source.php)
+        #cd /opt
+        #git clone https://github.com/ImageMagick/ImageMagick.git ImageMagick-7.1.0
+        #cd ImageMagick-7.1.0
+	#./configure
+	#make
+	#make install
+	#ldconfig /usr/local/lib
+	
+	# Install SoFiA-Image-Pipeline
+	#cd /opt
+	#git clone https://github.com/kmhess/SoFiA-image-pipeline.git
+	#cd SoFiA-image-pipeline
+	#pip install .
+	#pip install cmasher
+	
+	# pyFAT
+	#pip install pyFAT-astro
+	
+	#pyHIARD
+	#pip install pyHIARD
+	
+	# TiRiFiC
+	#apt-get install -y pgplot5 tirific
+		
+	# 3D Barrolo
+	#cd /opt 
+	#apt-get install -y libfftw3-dev libcfitsio-dev
+	#git clone -b master --single-branch https://github.com/editeodoro/Bbarolo
+        #cd Bbarolo
+        #./configure
+	#make
+	#make install
+	#make gui
+	#make lib
+	#make clean
+	
+	# pyBBarolo
+	#pip install pyBBarolo 
+	
+	# CASA
+	#cd /opt
+	#wget https://casa.nrao.edu/download/distro/casa/release/rhel/casa-6.5.2-26-py3.8.tar.xz
+	#tar xvf casa-6.5.2-26-py3.8.tar.xz
+	#rm -rf casa-6.5.2-26-py3.8.tar.xz
+	#pip install casatools casatasks
+	
+	# Baygaud
+	cd /opt
+	git clone https://github.com/spectram/baygaud.git
+	cd baygaud/multinest.3.10_master_MPIoff/src
+	export FC=gfortran-7
+	update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-7 1
+	csh -f multinest_comp.csh
+	cd /opt/baygaud
+	./setup_baygaud.sh
+	make
+		
+	# Cleanup the container
+        apt-get clean
+        apt-get autoclean
+
+%runscript
+
+        exec "$@" 

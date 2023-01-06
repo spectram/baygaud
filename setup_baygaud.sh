@@ -17,7 +17,7 @@ echo "... Setup the paths to the libraries required for BAYGAUD installation ...
 echo "------------------------------------------------------------------------"
 echo ""
 echo ""
-default_path="/opt/multinest.3.10_MPIoff/MultiNest-master/src"
+default_path="/opt/baygaud/multinest.3.10_master_MPIoff/src"
 #read -p "--> 1/3. Enter the absolute path to the directory where MULTINEST_MPIOFF is installed <--
 #    [Check with 'locate libnest3_mpioff.a']
 #    [Press 'Enter' to use the default directory '/mnt/g0/research/packages/multinest/MultiNest_v3.7_MPIoff' 
