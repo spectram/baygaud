@@ -28,6 +28,8 @@ Include: software-properties-common
 	export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 	export LD_LIBRARY_PATH=/opt/baygaud/multinest.3.10_master_MPIoff/src:$LD_LIBRARY_PATH
 	export PATH="/opt/baygaud/src/bin:$PATH"
+	export PYTHONPATH="/opt/baygaud/src/bin:$PYTHONPATH"
+	
 
 %post
 
@@ -119,6 +121,7 @@ Include: software-properties-common
 	cd /opt/baygaud
 	./setup_baygaud.sh
 	make
+	pip install glob2 matplotlib numpy astropy spectral_cube natsort tqdm psutil
 		
 	# Cleanup the container
         apt-get clean
